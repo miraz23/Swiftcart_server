@@ -41,7 +41,7 @@ adminSchema.methods.getJwtToken = function () {
     })
 }
 
-adminSechema.methods.comparePassword = async function (enteredPassword) {
+adminSchema.methods.comparePassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password)
 }
 
