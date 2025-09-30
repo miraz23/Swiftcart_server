@@ -10,13 +10,20 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 // requiring routers
+const paymentRouter = require('./routes/paymentRouter');
+const productRouter = require('./routes/productRouter');
 const adminRouter = require('./routes/adminRouter');
+const orderRouter = require('./routes/orderRouter');
+const uploadRouter = require('./routes/uploadRouter');
 
 // requiring middlewares
 const errorMiddleware = require('./middleware/Error');
 
 // require db configs
 const connectToDb = require('./config/db');
+
+// require cloudinary configs
+const cloudinary = require('./config/cloudinary');
 
 // uncaught exception
 process.on('uncaughtException', (err) => {
@@ -31,7 +38,7 @@ connectToDb();
 // using middlewares
 app.use(
   cors({
-    origin: [/localhost:\d{4}$/],
+    origin: [/varuntiwari\.com$/, /netlify\.app$/, /localhost:\d{4}$/],
     credentials: true,
   })
 );
@@ -42,19 +49,23 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
   res.status(200).json({
     success: true,
-    message: 'API service running...',
+    message: 'API service running 🚀',
   });
 });
 
 // using routers
+app.use('/api/payment', paymentRouter);
+app.use('/api/products', productRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/orders', orderRouter);
+app.use('/api/upload', uploadRouter);
 
 // using other middlewares
 app.use(errorMiddleware);
 
 // starting server
 const server = app.listen(process.env.PORT || 5000, () => {
-  console.log('Server running...');
+  console.log('Server running');
 });
 
 // unhandled promise rejection
