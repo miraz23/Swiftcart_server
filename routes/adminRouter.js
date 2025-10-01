@@ -6,7 +6,11 @@ const auth = require('../middleware/Auth');
 
 router.route('/auth').post(adminController.sendCurrentUser);
 
-// register new admin
+// register first admin (no authentication required)
+router.route('/register-superadmin')
+  .post(adminController.registerAdmin);
+
+// register new admin (requires super admin authentication)
 router.route('/register')
   .post(
     auth.checkUserAuthentication,
