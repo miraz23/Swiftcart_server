@@ -38,7 +38,9 @@ connectToDb();
 // using middlewares
 app.use(
   cors({
-    origin: [/varuntiwari\.com$/, /netlify\.app$/, /localhost:\d{4}$/],
+    origin: process.env.NODE_ENV === 'production' 
+      ? [process.env.FRONTEND_URL, /\.netlify\.app$/, /\.vercel\.app$/]
+      : [/localhost:\d{4}$/, /127\.0\.0\.1:\d{4}$/],
     credentials: true,
   })
 );
