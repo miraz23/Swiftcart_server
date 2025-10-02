@@ -10,7 +10,7 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
   let newImages = [];
   for (let i = 0; i < images.length; i++) {
     const { public_id, url } = await cloudinary.uploader.upload(images[i], {
-      folder: 'tomper-wear',
+      folder: process.env.CLOUDINARY_FOLDER || 'swiftcart',
     });
     newImages.push({ public_id, url });
   }
@@ -36,7 +36,7 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
   for (let i = 0; i < images.length; i++) {
     if (typeof images[i] === 'string') {
       const { public_id, url } = await cloudinary.uploader.upload(images[i], {
-        folder: 'tomper-wear',
+        folder: process.env.CLOUDINARY_FOLDER || 'swiftcart',
       });
       newImages.push({ public_id, url });
     } else {
